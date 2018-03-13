@@ -1,6 +1,8 @@
 package com.android.example.wordlistclient;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +21,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private TextView mTextView;
     private EditText mEditWordView;
-    private WordListOpenHelper mDB;
+    private Context mContext;
+    private String queryUri = Contract.CONTENT_URI.toString();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,14 +32,27 @@ public class SearchActivity extends AppCompatActivity {
 
         mTextView = findViewById(R.id.search_result);
         mEditWordView = findViewById(R.id.search_word);
-        mDB = new WordListOpenHelper(this);
+        mContext = getApplicationContext();
+
     }
 
+    //todo: implement search
     public void showResult(View view) {
         String word = String.valueOf(mEditWordView.getText());
         mEditWordView.setText("");
         mTextView.setText(Html.fromHtml(getString(R.string.search_result_prefix) + " <b>" + word + "</b>:<br/><br/>"));
-        Cursor cursor = mDB.search(word);
+
+        String[] projection = new String[]{Contract.CONTENT_PATH};
+        String searchString = "%" + word + "%";
+        String where = KEY_WORD + " LIKE ?";
+        String[] whereArgs = new String[]{word};
+
+        Cursor cursor = mContext.getContentResolver().query(Uri.parse(queryUri),
+        projection,
+        where,
+        whereArgs,
+        null);
+
         if (cursor != null && cursor.getCount() > 0){
             cursor.moveToFirst();
             int index;
@@ -43,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
             do {
                 index = cursor.getColumnIndex(KEY_WORD);
                 result = cursor.getString(index);
-                mTextView.append(result + "\n");
+                mTextView.append("\n" + result);
             } while (cursor.moveToNext());
             cursor.close();
         }

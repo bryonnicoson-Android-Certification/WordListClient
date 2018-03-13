@@ -15,10 +15,10 @@ limitations under the License. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.example.wordlistclient">
 
-    <permission android:name="com.android.example.wordlistclient.PERMISSION" />
+    <permission android:name="com.android.example.wordlistsqlwithcontentprovider.PERMISSION" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -32,9 +32,5 @@ limitations under the License. -->
         <activity android:name="com.android.example.wordlistclient.EditWordActivity"></activity>
         <activity android:name="com.android.example.wordlistclient.SearchActivity"></activity>
 
-        <provider
-            android:name="com.android.example.wordlistclient.WordListContentProvider"
-            android:authorities="com.android.example.wordlistclient.provider"
-            android:exported="true"></provider>
     </application>
 </manifest>

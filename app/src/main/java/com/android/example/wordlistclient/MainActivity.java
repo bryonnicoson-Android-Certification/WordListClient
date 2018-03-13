@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == WORD_EDIT) {
             if (resultCode == RESULT_OK) {
                 String word = data.getStringExtra(EditWordActivity.EXTRA_REPLY);
+
                 // update database
                 if (word.length() != 0) {
                     ContentValues values = new ContentValues();

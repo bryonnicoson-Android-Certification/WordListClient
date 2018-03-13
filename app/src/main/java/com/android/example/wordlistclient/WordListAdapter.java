@@ -80,6 +80,10 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     @Override
     public void onBindViewHolder(WordViewHolder holder, int position) {
 
+        // keep a reference to the view holder for the click listener
+        // needs to be final for use in callback
+        final WordViewHolder h = holder;
+
         String word = "";
         int id = -1;
 
@@ -100,8 +104,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             Log.e(TAG, "onBindViewHolder: Cursor is null.");
         }
 
-        // keep a reference to the view holder for the click listener
-        final WordViewHolder h = holder; // needs to be final for use in callback
+
 
         // Attach a click listener to the DELETE button
         holder.delete_button.setOnClickListener(new MyButtonOnClickListener(id, null) {
